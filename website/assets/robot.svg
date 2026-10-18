@@ -1,0 +1,69 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" role="img" aria-labelledby="title desc">
+  <title id="title">NEXORA humanoid robot</title>
+  <desc id="desc">A futuristic white and graphite humanoid robot with cyan illuminated details.</desc>
+  <defs>
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".55" stop-color="#cbd7e5"/>
+      <stop offset="1" stop-color="#71869c"/>
+    </linearGradient>
+    <linearGradient id="dark" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#34465b"/>
+      <stop offset="1" stop-color="#080f1a"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop stop-color="#63efff" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#63efff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <ellipse cx="240" cy="555" rx="145" ry="24" fill="#32cfff" opacity=".16"/>
+  <ellipse cx="240" cy="555" rx="104" ry="12" fill="#32cfff" opacity=".2"/>
+
+  <!-- Head -->
+  <ellipse cx="240" cy="106" rx="70" ry="76" fill="url(#glow)"/>
+  <path d="M190 61 Q195 35 230 31 L268 38 Q291 53 291 87 L279 129 L253 151 L209 139 L188 109Z" fill="url(#armor)" stroke="#eaf6ff" stroke-width="2"/>
+  <path d="M198 78 Q235 56 278 76 L274 104 Q237 123 199 103Z" fill="url(#dark)"/>
+  <path d="M213 88 L230 83 M248 83 L265 88" stroke="#64eaff" stroke-width="5" stroke-linecap="round"/>
+  <path d="M218 126 L260 126 L250 137 L228 137Z" fill="#8ea2b7"/>
+
+  <!-- Neck and shoulders -->
+  <path d="M220 147 L220 173 L260 173 L260 147" fill="url(#dark)"/>
+  <path d="M211 168 L170 177 L131 206 L145 260 L195 244 L211 220Z" fill="url(#armor)" stroke="#9db2c7" stroke-width="2"/>
+  <path d="M269 168 L310 177 L349 206 L335 260 L285 244 L269 220Z" fill="url(#armor)" stroke="#9db2c7" stroke-width="2"/>
+
+  <!-- Torso -->
+  <path d="M201 166 L279 166 L305 203 L291 319 L265 358 L215 358 L189 319 L175 203Z" fill="url(#dark)" stroke="#60758b" stroke-width="2"/>
+  <path d="M207 174 L240 184 L273 174 L288 207 L270 291 L240 315 L210 291 L192 207Z" fill="url(#armor)" stroke="#edf6ff" stroke-width="2"/>
+  <path d="M211 214 L269 214 L261 261 L240 276 L219 261Z" fill="#26394e"/>
+  <path d="M222 228 L258 228" stroke="#5eeaff" stroke-width="4" stroke-linecap="round"/>
+  <path d="M231 245 L249 245" stroke="#5eeaff" stroke-width="3" stroke-linecap="round"/>
+  <text x="240" y="199" fill="#26394e" font-size="10" font-family="Arial,sans-serif" font-weight="bold" letter-spacing="2" text-anchor="middle">NEXORA</text>
+
+  <!-- Arms -->
+  <path d="M153 211 L129 244 L111 323 L130 335 L157 265 L178 243Z" fill="url(#dark)" stroke="#71869c" stroke-width="2"/>
+  <path d="M111 323 L98 394 L115 402 L140 337Z" fill="url(#armor)" stroke="#8da2b7" stroke-width="2"/>
+  <path d="M98 394 L92 435 L110 445 L124 402Z" fill="url(#dark)"/>
+  <path d="M327 211 L351 244 L369 323 L350 335 L323 265 L302 243Z" fill="url(#dark)" stroke="#71869c" stroke-width="2"/>
+  <path d="M369 323 L382 394 L365 402 L340 337Z" fill="url(#armor)" stroke="#8da2b7" stroke-width="2"/>
+  <path d="M382 394 L388 435 L370 445 L356 402Z" fill="url(#dark)"/>
+  <circle cx="119" cy="331" r="11" fill="#18283b" stroke="#60dfff" stroke-width="3"/>
+  <circle cx="361" cy="331" r="11" fill="#18283b" stroke="#60dfff" stroke-width="3"/>
+
+  <!-- Waist -->
+  <path d="M196 315 L284 315 L277 358 L266 381 L214 381 L203 358Z" fill="url(#dark)" stroke="#60758b" stroke-width="2"/>
+  <path d="M215 336 L265 336 L259 356 L221 356Z" fill="#5bdfff" opacity=".8"/>
+
+  <!-- Legs -->
+  <path d="M209 369 L240 379 L232 451 L220 486 L183 481 L186 433Z" fill="url(#armor)" stroke="#91a6bb" stroke-width="2"/>
+  <path d="M271 369 L240 379 L248 451 L260 486 L297 481 L294 433Z" fill="url(#armor)" stroke="#91a6bb" stroke-width="2"/>
+  <path d="M190 403 L230 412 M250 412 L290 403" stroke="#42566c" stroke-width="6"/>
+  <path d="M183 481 L220 486 L225 523 L204 537 L170 532 L166 514Z" fill="url(#dark)" stroke="#71869c" stroke-width="2"/>
+  <path d="M260 486 L297 481 L314 514 L310 532 L276 537 L255 523Z" fill="url(#dark)" stroke="#71869c" stroke-width="2"/>
+  <path d="M174 522 L216 527 M264 527 L306 522" stroke="#62e8ff" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Mechanical detail -->
+  <path d="M193 291 L207 305 M287 291 L273 305 M207 389 L219 397 M273 389 L261 397" stroke="#5bdfff" stroke-width="3"/>
+  <circle cx="240" cy="303" r="7" fill="#58e5ff"/>
+</svg>
