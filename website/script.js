@@ -91,3 +91,128 @@ document.addEventListener("click", (event) => {
         closeProductDialog();
     }
 });
+
+/* NEXORA robot comparison functionality */
+
+const comparisonProducts = {
+    home: {
+        name: "NEXORA Home",
+        role: "Personal home assistance",
+        interaction: "Voice and touch",
+        environment: "Residential spaces",
+        focus: "Everyday convenience and assistance"
+    },
+
+    industrial: {
+        name: "NEXORA Industrial",
+        role: "Industrial task assistance",
+        interaction: "Operator controls and voice",
+        environment: "Factories and industrial facilities",
+        focus: "Workflow support and operational efficiency"
+    },
+
+    care: {
+        name: "NEXORA Care",
+        role: "Care and companionship assistance",
+        interaction: "Voice and touch",
+        environment: "Care facilities and home environments",
+        focus: "Companionship and daily support"
+    }
+};
+
+const comparisonSection = document.querySelector("#compare");
+
+if (comparisonSection) {
+    const comparisonInputs = [
+        ...comparisonSection.querySelectorAll(
+            '.comparison-option input[type="checkbox"]'
+        )
+    ];
+
+    const comparisonResults = comparisonSection.querySelector(
+        "#comparison-results"
+    );
+
+    const resetComparisonButton = comparisonSection.querySelector(
+        "#reset-comparison"
+    );
+
+    function renderComparison() {
+        const selectedRobots = comparisonInputs
+            .filter(input => input.checked)
+            .map(input => comparisonProducts[input.value])
+            .filter(Boolean);
+
+        if (selectedRobots.length < 2) {
+            const message = document.createElement("p");
+            message.textContent =
+                "Select at least two robots to compare them.";
+
+            comparisonResults.replaceChildren(message);
+            return;
+        }
+
+        const features = [
+            { label: "Primary role", key: "role" },
+            { label: "Interaction", key: "interaction" },
+            { label: "Intended environment", key: "environment" },
+            { label: "Design focus", key: "focus" }
+        ];
+
+        const table = document.createElement("table");
+        table.className = "comparison-table";
+
+        const tableHead = document.createElement("thead");
+        const headingRow = document.createElement("tr");
+        const featureHeading = document.createElement("th");
+
+        featureHeading.textContent = "Feature";
+        headingRow.appendChild(featureHeading);
+
+        selectedRobots.forEach(robot => {
+            const heading = document.createElement("th");
+            heading.textContent = robot.name;
+            headingRow.appendChild(heading);
+        });
+
+        tableHead.appendChild(headingRow);
+        table.appendChild(tableHead);
+
+        const tableBody = document.createElement("tbody");
+
+        features.forEach(feature => {
+            const row = document.createElement("tr");
+            const labelCell = document.createElement("td");
+
+            labelCell.textContent = feature.label;
+            row.appendChild(labelCell);
+
+            selectedRobots.forEach(robot => {
+                const cell = document.createElement("td");
+                cell.textContent = robot[feature.key];
+                row.appendChild(cell);
+            });
+
+            tableBody.appendChild(row);
+        });
+
+        table.appendChild(tableBody);
+        comparisonResults.replaceChildren(table);
+    }
+
+    comparisonInputs.forEach(input => {
+        input.addEventListener("change", renderComparison);
+    });
+
+    resetComparisonButton.addEventListener("click", () => {
+        comparisonInputs.forEach(input => {
+            input.checked =
+                input.value === "home" ||
+                input.value === "industrial";
+        });
+
+        renderComparison();
+    });
+
+    renderComparison();
+}
