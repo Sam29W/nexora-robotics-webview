@@ -4,13 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NEXORA Robotics builds the next generation of intelligent humanoid robots.">
+
+    <meta name="description"
+          content="Discover NEXORA Robotics, a fictional company exploring the future of intelligent humanoid machines.">
+
     <title>NEXORA Robotics | Intelligent Machines</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <p>NEXORA ROBOTICS</p>
+
         <nav aria-label="Main navigation">
             <a href="#home">Home</a>
             <a href="#robots">Our Robots</a>
@@ -20,82 +25,188 @@
     </header>
 
     <main>
-       
-<section id="home" class="hero">
-    <div class="hero-content">
-        <p class="eyebrow">THE FUTURE IS HERE</p>
+        <!-- HERO SECTION: restored -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <p class="eyebrow">THE FUTURE IS HERE</p>
 
-        <h1>
-            Intelligence.<br>
-            Designed for humanity.
-        </h1>
+                <h1>
+                    Intelligence.<br>
+                    Designed for humanity.
+                </h1>
 
-        <p class="hero-description">
-            Meet a new generation of humanoid robots
-            engineered to work alongside people.
-        </p>
+                <p class="hero-description">
+                    Meet a new generation of humanoid robots
+                    engineered to work alongside people.
+                </p>
 
-        <a class="hero-button" href="#robots">
-            Explore Our Robots
-            <span aria-hidden="true">→</span>
-        </a>
+                <a class="hero-button" href="#robots">
+                    Explore Our Robots
+                    <span aria-hidden="true">→</span>
+                </a>
 
-        <p class="hero-note">
-            <span class="status-dot"></span>
-            ENGINEERED FOR TOMORROW
-        </p>
-    </div>
+                <p class="hero-note">
+                    <span class="status-dot"></span>
+                    ENGINEERED FOR TOMORROW
+                </p>
+            </div>
 
-    <div class="hero-visual">
-        <div class="hero-orbit"></div>
-        <div class="hero-glow"></div>
+            <div class="hero-visual">
+                <div class="hero-orbit"></div>
+                <div class="hero-glow"></div>
 
-        <img
-            src="assets/robot.svg"
-            alt="NEXORA futuristic humanoid robot"
-            class="hero-robot"
-        >
+                <img
+                    src="assets/robot.svg"
+                    alt="NEXORA futuristic humanoid robot"
+                    class="hero-robot"
+                >
 
-        <div class="robot-label">
-            <span class="status-dot"></span>
-            NXR-01 / HUMANOID SERIES
-        </div>
+                <div class="robot-label">
+                    <span class="status-dot"></span>
+                    NXR-01 / HUMANOID SERIES
+                </div>
 
-        <div class="hero-coordinate">37° 14' 06.2" N</div>
-    </div>
-</section>
-
-
-        <section id="robots">
-            <h2>Meet the NEXORA Series</h2>
-
-            <article>
-                <h3>NEXORA Home</h3>
-                <p>A conceptual personal assistant for everyday living.</p>
-            </article>
-
-            <article>
-                <h3>NEXORA Industrial</h3>
-                <p>A conceptual humanoid for manufacturing and logistics.</p>
-            </article>
-
-            <article>
-                <h3>NEXORA Care</h3>
-                <p>A conceptual companion for hospitality and assistance.</p>
-            </article>
+                <div class="hero-coordinate">
+                    37° 14' 06.2" N
+                </div>
+            </div>
         </section>
 
+        <!-- PRODUCT CATALOGUE -->
+        <section id="robots" class="products-section">
+            <div class="section-heading">
+                <p class="eyebrow">OUR HUMANOID SERIES</p>
+
+                <h2>Meet the NEXORA generation.</h2>
+
+                <p>
+                    Three robot concepts. Three different ways to bring
+                    intelligent machines closer to everyday life.
+                </p>
+            </div>
+
+            <div class="product-grid">
+                <article class="product-card" id="home-robot">
+                    <div class="product-number">01 / HOME</div>
+
+                    <div class="product-visual product-visual-home">
+                        <img src="assets/robot.svg"
+                             alt="Illustration representing NEXORA Home">
+                    </div>
+
+                    <div class="product-info">
+                        <p class="product-category">DOMESTIC ASSISTANCE</p>
+                        <h3>NEXORA Home</h3>
+
+                        <p>
+                            A home-assistant concept designed for daily tasks
+                            and smart-environment interaction.
+                        </p>
+
+                        <ul class="product-specs">
+                            <li><span>Concept role</span><strong>Home assistant</strong></li>
+                            <li><span>Interaction</span><strong>Voice and touch</strong></li>
+                            <li><span>Environment</span><strong>Residential</strong></li>
+                        </ul>
+
+                        <button class="product-button"
+                                type="button"
+                                data-product="home">
+                            Explore concept <span aria-hidden="true">→</span>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="product-card" id="industrial-robot">
+                    <div class="product-number">02 / INDUSTRIAL</div>
+
+                    <div class="product-visual product-visual-industrial">
+                        <img src="assets/robot.svg"
+                             alt="Illustration representing NEXORA Industrial">
+                    </div>
+
+                    <div class="product-info">
+                        <p class="product-category">INDUSTRIAL SUPPORT</p>
+                        <h3>NEXORA Industrial</h3>
+
+                        <p>
+                            An industrial humanoid concept for logistics support
+                            and repetitive workplace tasks.
+                        </p>
+
+                        <ul class="product-specs">
+                            <li><span>Concept role</span><strong>Industrial support</strong></li>
+                            <li><span>Interaction</span><strong>Operator interface</strong></li>
+                            <li><span>Environment</span><strong>Factories and logistics</strong></li>
+                        </ul>
+
+                        <button class="product-button"
+                                type="button"
+                                data-product="industrial">
+                            Explore concept <span aria-hidden="true">→</span>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="product-card" id="care-robot">
+                    <div class="product-number">03 / CARE</div>
+
+                    <div class="product-visual product-visual-care">
+                        <img src="assets/robot.svg"
+                             alt="Illustration representing NEXORA Care">
+                    </div>
+
+                    <div class="product-info">
+                        <p class="product-category">COMPANION ROBOTICS</p>
+                        <h3>NEXORA Care</h3>
+
+                        <p>
+                            A companion-robot concept for hospitality,
+                            guided assistance and welcoming environments.
+                        </p>
+
+                        <ul class="product-specs">
+                            <li><span>Concept role</span><strong>Companion</strong></li>
+                            <li><span>Interaction</span><strong>Conversational interface</strong></li>
+                            <li><span>Environment</span><strong>Hospitality and care</strong></li>
+                        </ul>
+
+                        <button class="product-button"
+                                type="button"
+                                data-product="care">
+                            Explore concept <span aria-hidden="true">→</span>
+                        </button>
+                    </div>
+                </article>
+            </div>
+
+            <p class="concept-disclaimer">
+                All products and specifications shown are fictional design
+                concepts. No commercial availability or operational
+                capabilities are implied.
+            </p>
+        </section>
+
+        <!-- ABOUT -->
         <section id="about">
+            <p class="eyebrow">OUR VISION</p>
             <h2>Engineering a better tomorrow</h2>
+
             <p>
                 NEXORA Robotics is a fictional company exploring
                 human-centered robotics and intelligent machines.
             </p>
         </section>
 
+        <!-- CONTACT -->
         <section id="contact">
+            <p class="eyebrow">START A CONVERSATION</p>
             <h2>Build the future with us</h2>
-            <p>Interested in our robot concepts? Get in touch with our team.</p>
+
+            <p>
+                Interested in our robot concepts? Get in touch with our team.
+            </p>
+
             <a href="mailto:hello@nexora.example">Contact NEXORA</a>
         </section>
     </main>
