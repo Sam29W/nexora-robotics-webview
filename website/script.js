@@ -216,3 +216,45 @@ if (comparisonSection) {
 
     renderComparison();
 }
+
+/* NEXORA scroll-reveal observer */
+
+const revealElements = document.querySelectorAll(
+    ".products-section .product-card, " +
+    ".comparison-section, " +
+    "#about, " +
+    "#contact"
+);
+
+const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+).matches;
+
+if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+    revealElements.forEach(element => {
+        element.classList.add("is-visible");
+    });
+} else {
+    revealElements.forEach(element => {
+        element.classList.add("reveal-on-scroll");
+    });
+
+    const revealObserver = new IntersectionObserver(
+        (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        },
+        {
+            threshold: 0.12,
+            rootMargin: "0px 0px -30px 0px"
+        }
+    );
+
+    revealElements.forEach(element => {
+        revealObserver.observe(element);
+    });
+}
