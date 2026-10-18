@@ -1,0 +1,173 @@
+
+/* NEXORA Robotics — visual foundation */
+
+:root {
+    --bg: #080d16;
+    --surface: #111b2b;
+    --text: #f3f7ff;
+    --muted: #a5b2c6;
+    --accent: #67d5ff;
+    --border: #25364b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", Arial, sans-serif;
+    line-height: 1.6;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 24px 8%;
+    border-bottom: 1px solid var(--border);
+}
+
+header > p {
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+nav a {
+    color: var(--muted);
+}
+
+nav a:hover {
+    color: var(--accent);
+}
+
+main section {
+    padding: 90px 8%;
+    scroll-margin-top: 20px;
+}
+
+#home {
+    min-height: 65vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    background:
+        radial-gradient(ellipse at 85% 35%, #17446a55, transparent 45%),
+        var(--bg);
+}
+
+#home > p:first-child {
+    color: var(--accent);
+    letter-spacing: 4px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+h1 {
+    max-width: 850px;
+    margin: 10px 0;
+    font-size: clamp(2.7rem, 7vw, 5.5rem);
+    line-height: 1.05;
+    letter-spacing: -2px;
+}
+
+h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+}
+
+h3 {
+    font-size: 1.4rem;
+}
+
+#home > p:not(:first-child),
+#about p,
+#contact p {
+    max-width: 620px;
+    color: var(--muted);
+}
+
+#home > a,
+#contact > a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 13px 22px;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    background: var(--accent);
+    color: #07111d;
+    font-weight: 700;
+}
+
+#robots {
+    background: #0c1421;
+}
+
+#robots article {
+    display: inline-block;
+    vertical-align: top;
+    width: calc(33.333% - 18px);
+    min-width: 220px;
+    margin: 12px 12px 12px 0;
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+}
+
+#robots article p {
+    color: var(--muted);
+}
+
+#about,
+#contact {
+    border-top: 1px solid var(--border);
+}
+
+footer {
+    padding: 28px 8%;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 650px) {
+    header {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 20px 6%;
+    }
+
+    nav {
+        gap: 14px;
+    }
+
+    main section {
+        padding: 60px 6%;
+    }
+
+    #robots article {
+        display: block;
+        width: 100%;
+        min-width: 0;
+        margin-right: 0;
+    }
+}
