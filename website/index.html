@@ -85,6 +85,35 @@
                 </p>
             </div>
 
+            
+<dialog id="product-dialog" class="product-dialog">
+    <button
+        type="button"
+        class="dialog-close"
+        data-close-dialog
+        aria-label="Close product details"
+    >×</button>
+
+    <p class="eyebrow" id="dialog-category"></p>
+    <h2 id="dialog-title"></h2>
+    <p id="dialog-description"></p>
+
+    <h3>Concept features</h3>
+    <ul id="dialog-features"></ul>
+
+    <p class="concept-disclaimer">
+        Fictional product concept. Features are illustrative,
+        not claims about a commercially available robot.
+    </p>
+
+    <button
+        type="button"
+        class="product-button"
+        data-close-dialog
+    >Close details</button>
+</dialog>
+
+
             <div class="product-grid">
                 <article class="product-card" id="home-robot">
                     <div class="product-number">01 / HOME</div>
@@ -214,5 +243,7 @@
     <footer>
         <p>&copy; 2026 NEXORA Robotics. Fictional project.</p>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
