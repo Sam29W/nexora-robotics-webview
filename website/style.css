@@ -64,57 +64,195 @@ main section {
     scroll-margin-top: 20px;
 }
 
-#home {
-    min-height: 65vh;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+/* NEXORA cinematic hero */
+
+.hero {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+    gap: 24px;
+    min-height: 680px;
+    overflow: hidden;
+    padding: 80px 8%;
     background:
-        radial-gradient(ellipse at 85% 35%, #17446a55, transparent 45%),
-        var(--bg);
+        radial-gradient(ellipse at 78% 45%, #103a5c66, transparent 45%),
+        linear-gradient(135deg, #080d16, #0a1422);
 }
 
-#home > p:first-child {
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.eyebrow {
     color: var(--accent);
-    letter-spacing: 4px;
     font-size: 0.8rem;
     font-weight: 700;
+    letter-spacing: 4px;
 }
 
-h1 {
-    max-width: 850px;
-    margin: 10px 0;
-    font-size: clamp(2.7rem, 7vw, 5.5rem);
-    line-height: 1.05;
-    letter-spacing: -2px;
+.hero h1 {
+    max-width: 680px;
+    margin: 18px 0;
+    font-size: clamp(2.8rem, 5.2vw, 5rem);
+    line-height: 1.06;
+    letter-spacing: -2.5px;
 }
 
-h2 {
-    font-size: clamp(2rem, 4vw, 3rem);
-}
-
-h3 {
-    font-size: 1.4rem;
-}
-
-#home > p:not(:first-child),
-#about p,
-#contact p {
-    max-width: 620px;
+.hero-description {
+    max-width: 510px;
     color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.9;
 }
 
-#home > a,
-#contact > a {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 13px 22px;
+.hero-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 22px;
+    padding: 14px 22px;
     border: 1px solid var(--accent);
     border-radius: 6px;
     background: var(--accent);
     color: #07111d;
     font-weight: 700;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hero-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px #67d5ff33;
+}
+
+.hero-note {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 34px;
+    color: var(--muted);
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #67e8b5;
+    box-shadow: 0 0 12px #67e8b5;
+}
+
+.hero-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 510px;
+    isolation: isolate;
+}
+
+.hero-glow {
+    position: absolute;
+    z-index: -2;
+    width: 90%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, #1a6da355, #0d274422 50%, transparent 72%);
+    filter: blur(15px);
+}
+
+.hero-orbit {
+    position: absolute;
+    z-index: -1;
+    width: 85%;
+    aspect-ratio: 1;
+    border: 1px solid #67d5ff26;
+    border-radius: 50%;
+    box-shadow: 0 0 50px #67d5ff0a, inset 0 0 50px #67d5ff08;
+}
+
+.hero-robot {
+    display: block;
+    width: 100%;
+    max-width: 480px;
+    max-height: 570px;
+    object-fit: contain;
+    filter: drop-shadow(0 15px 40px #3bcfff20);
+    animation: robot-float 5s ease-in-out infinite;
+}
+
+.robot-label {
+    position: absolute;
+    right: 0;
+    bottom: 8%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    border: 1px solid #29465e;
+    border-radius: 5px;
+    background: #0a1422d9;
+    color: #d9e8f8;
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
+    backdrop-filter: blur(10px);
+}
+
+.hero-coordinate {
+    position: absolute;
+    top: 12%;
+    right: 2%;
+    color: #8ca8c0;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+}
+
+@keyframes robot-float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@media (max-width: 800px) {
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 65px 6% 35px;
+    }
+
+    .hero-visual {
+        min-height: 400px;
+    }
+
+    .hero-robot {
+        max-height: 430px;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.7rem, 10vw, 4.5rem);
+    }
+
+    .robot-label {
+        right: 0;
+        bottom: 3%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-robot {
+        animation: none;
+    }
+
+    .hero-button {
+        transition: none;
+    }
 }
 
 #robots {
