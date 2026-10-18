@@ -607,3 +607,30 @@ footer {
         padding: 13px;
     }
 }
+
+/* Smooth navigation between website sections */
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 24px;
+}
+
+/* Make navigation links feel more responsive */
+
+header nav a {
+    transition:
+        color 0.25s ease,
+        opacity 0.25s ease;
+}
+
+header nav a:hover {
+    color: var(--accent);
+}
+
+/* Respect visitors who prefer reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
