@@ -1,4 +1,3 @@
-
 {
   "expo": {
     "name": "NEXORA Robotics",
@@ -39,6 +38,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "0d5720a1-c8dc-4bb4-9013-80b8be4f432f"
+      }
     }
   }
 }
