@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   BackHandler,
+  Pressable,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,10 +17,11 @@ const WEBSITE_URL =
 export default function HomeScreen() {
   const webViewRef = useRef<WebView>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const [canGoBack, setCanGoBack] = useState(false);
 
   useEffect(() => {
-    const backHandler = BackHandler.addEventListener(
+    const subscription = BackHandler.addEventListener(
       'hardwareBackPress',
       () => {
         if (canGoBack) {
@@ -26,14 +29,18 @@ export default function HomeScreen() {
           return true;
         }
 
-        // Let Android handle the back action when
-        // the WebView is already on its first page.
         return false;
       },
     );
 
-    return () => backHandler.remove();
+    return () => subscription.remove();
   }, [canGoBack]);
+
+  const retryLoading = () => {
+    setHasError(false);
+    setIsLoading(true);
+    webViewRef.current?.reload();
+  };
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
@@ -44,18 +51,47 @@ export default function HomeScreen() {
           style={styles.webView}
           javaScriptEnabled
           domStorageEnabled
-          onLoadStart={() => setIsLoading(true)}
+          onLoadStart={() => {
+            setIsLoading(true);
+            setHasError(false);
+          }}
           onLoadEnd={() => setIsLoading(false)}
           onNavigationStateChange={(navState) =>
             setCanGoBack(navState.canGoBack)
           }
-          onError={() => setIsLoading(false)}
-          onHttpError={() => setIsLoading(false)}
+          onError={() => {
+            setIsLoading(false);
+            setHasError(true);
+          }}
+          onHttpError={(event) => {
+            if (event.nativeEvent.statusCode >= 400) {
+              setIsLoading(false);
+              setHasError(true);
+            }
+          }}
         />
 
-        {isLoading && (
+        {isLoading && !hasError && (
           <View style={styles.loadingOverlay}>
             <ActivityIndicator size="large" color="#39D9FF" />
+            <Text style={styles.loadingText}>Loading NEXORA...</Text>
+          </View>
+        )}
+
+        {hasError && (
+          <View style={styles.errorOverlay}>
+            <Text style={styles.errorTitle}>Unable to load NEXORA</Text>
+            <Text style={styles.errorMessage}>
+              Check your internet connection and try again.
+            </Text>
+
+            <Pressable
+              accessibilityRole="button"
+              onPress={retryLoading}
+              style={styles.retryButton}
+            >
+              <Text style={styles.retryButtonText}>Try again</Text>
+            </Pressable>
           </View>
         )}
       </View>
@@ -79,6 +115,42 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 12,
     backgroundColor: '#07111F',
+  },
+  loadingText: {
+    color: '#D8E8F5',
+    fontSize: 14,
+  },
+  errorOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 28,
+    backgroundColor: '#07111F',
+  },
+  errorTitle: {
+    color: '#FFFFFF',
+    fontSize: 21,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  errorMessage: {
+    color: '#B8C8D9',
+    fontSize: 15,
+    textAlign: 'center',
+    marginTop: 12,
+    marginBottom: 24,
+  },
+  retryButton: {
+    backgroundColor: '#39D9FF',
+    paddingHorizontal: 28,
+    paddingVertical: 12,
+    borderRadius: 10,
+  },
+  retryButtonText: {
+    color: '#07111F',
+    fontWeight: '700',
+    fontSize: 15,
   },
 });
