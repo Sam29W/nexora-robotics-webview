@@ -1,0 +1,25 @@
+{
+  "name": "nexora-robotics-monorepo",
+  "version": "1.0.0",
+  "description": "Production full-stack robotics company platform: Website, Android WebView APK, Express REST API, and Supabase PostgreSQL Database",
+  "private": true,
+  "scripts": {
+    "dev:backend": "cd backend && npm run dev",
+    "build:backend": "cd backend && npm run build",
+    "test:backend": "cd backend && npm test",
+    "lint:backend": "cd backend && npm run lint",
+    "start:app": "cd android-app && npx expo start"
+  },
+  "keywords": [
+    "fullstack",
+    "supabase",
+    "react-native",
+    "webview",
+    "express",
+    "typescript",
+    "postgresql",
+    "synchronization"
+  ],
+  "author": "V & S Engineering",
+  "license": "MIT"
+}

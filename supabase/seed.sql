@@ -1,0 +1,13 @@
+-- Sample seed data for testing locally or in staging environments
+-- Note: Replace '<USER_UUID>' with an actual user ID from auth.users if manually seeding
+
+-- Example:
+-- INSERT INTO public.profiles (id, display_name, bio, gender, hobbies, strengths)
+-- VALUES (
+--   '00000000-0000-0000-0000-000000000000',
+--   'V and S Dev',
+--   'Full stack engineering pair',
+--   'other',
+--   ARRAY['Robotics', 'TypeScript', 'PostgreSQL'],
+--   ARRAY['Problem Solving', 'System Architecture']
+-- ) ON CONFLICT (id) DO NOTHING;
