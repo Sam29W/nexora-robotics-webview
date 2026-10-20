@@ -22,6 +22,7 @@ class NexoraAuthService {
             persistSession: true,
             autoRefreshToken: true,
             detectSessionInUrl: true,
+            flowType: 'pkce',
           },
         });
       } catch (err) {
@@ -109,15 +110,21 @@ class NexoraAuthService {
   /**
    * Sign in with Google OAuth
    */
-  async signInWithGoogle() {
+  async signInWithGoogle(customRedirectUrl) {
     if (!this.client) {
-      throw new Error('Supabase project credentials not configured yet. Configure them in settings.');
+      throw new Error('Supabase project credentials not configured yet. Configure them in settings or website/config.js.');
     }
+
+    const redirectTo = customRedirectUrl || (window.location.origin + window.location.pathname);
 
     const { data, error } = await this.client.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.location.origin + window.location.pathname,
+        redirectTo: redirectTo,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
       },
     });
 

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign in to NEXORA Robotics Pilot Portal. Authenticate with Google OAuth or Email.">
+    <title>NEXORA Robotics | Pilot Login & Authentication</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Supabase JS Client v2 via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="login-page-body">
+    <div class="login-container">
+        <!-- Floating Cyber Glow Background -->
+        <div class="login-bg-glow"></div>
+
+        <div class="login-card">
+            <!-- Brand Header -->
+            <div class="login-header">
+                <a href="index.html" class="login-brand" title="Return to NEXORA Homepage">
+                    <span class="status-dot"></span>
+                    <span class="brand-text">NEXORA ROBOTICS</span>
+                </a>
+                <p class="eyebrow">PILOT ACCESS PORTAL</p>
+                <h1 id="login-title">Sign In</h1>
+                <p class="login-subtitle">Connect your pilot identity across Web, Mobile APK, and PostgreSQL.</p>
+            </div>
+
+            <!-- Supabase Connection Status Bar -->
+            <div id="supabase-status-banner" class="status-banner banner-warning">
+                <div class="status-icon">⚡</div>
+                <div class="status-text">
+                    <strong id="status-title">Supabase Connection:</strong>
+                    <span id="status-desc">Checking configuration...</span>
+                </div>
+                <button type="button" id="btn-toggle-key-helper" class="helper-toggle-btn" title="View Required Keys">
+                    Keys Setup
+                </button>
+            </div>
+
+            <!-- Expandable Key Configuration Helper -->
+            <div id="key-helper-drawer" class="key-helper-drawer" style="display: none;">
+                <h4>🔑 Required Supabase Keys</h4>
+                <p class="helper-note">Enter your project keys below or configure them in <code>website/config.js</code>:</p>
+                
+                <div class="key-input-group">
+                    <label for="input-supabase-url">1. Supabase Project URL</label>
+                    <input type="url" id="input-supabase-url" placeholder="https://your-project-id.supabase.co">
+                    <small>Found in Supabase Dashboard ➔ Project Settings ➔ API ➔ Project URL</small>
+                </div>
+
+                <div class="key-input-group">
+                    <label for="input-supabase-key">2. Supabase Anon Key (Public)</label>
+                    <input type="text" id="input-supabase-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+                    <small>Found in Supabase Dashboard ➔ Project Settings ➔ API ➔ Project API keys (anon/public)</small>
+                </div>
+
+                <button type="button" id="btn-save-keys-quick" class="save-keys-btn">
+                    Save Keys to Browser
+                </button>
+            </div>
+
+            <!-- Google OAuth Section (Prominent) -->
+            <div class="oauth-section">
+                <button type="button" id="btn-google-login" class="google-auth-button">
+                    <svg class="google-icon" width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.27 21.43 7.37 24 12 24z"/>
+                        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.37 0 3.27 2.57 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                    </svg>
+                    <span id="google-btn-text">Continue with Google</span>
+                </button>
+            </div>
+
+            <!-- Divider -->
+            <div class="login-divider">
+                <span>OR EMAIL ACCESS</span>
+            </div>
+
+            <!-- Tab Switcher: Sign In vs Create Account -->
+            <div class="auth-mode-tabs">
+                <button type="button" id="mode-signin" class="mode-tab active">Sign In</button>
+                <button type="button" id="mode-signup" class="mode-tab">Create Account</button>
+            </div>
+
+            <!-- Email / Password Form -->
+            <form id="login-form" class="login-form">
+                <!-- Registration display name field (shown only in sign up mode) -->
+                <div class="form-group" id="group-signup-name" style="display: none;">
+                    <label for="login-name">Pilot Display Name</label>
+                    <input type="text" id="login-name" placeholder="e.g. Commander Sarah" autocomplete="name">
+                </div>
+
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" placeholder="pilot@nexora.io" required autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="login-password" placeholder="••••••••••••" required autocomplete="current-password">
+                        <button type="button" id="btn-toggle-password" class="toggle-password-btn" title="Toggle password visibility">👁️</button>
+                    </div>
+                </div>
+
+                <!-- Live Feedback Alerts -->
+                <div id="login-error-alert" class="login-alert error" style="display: none;"></div>
+                <div id="login-success-alert" class="login-alert success" style="display: none;"></div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="btn-login-submit" class="login-submit-btn">
+                    <span id="submit-btn-text">Sign In</span>
+                </button>
+
+                <!-- Quick Fill Test Account Button -->
+                <button type="button" id="btn-quick-demo" class="quick-demo-btn">
+                    ⚡ Quick Fill Demo Credentials
+                </button>
+            </form>
+
+            <!-- Card Footer -->
+            <div class="login-card-footer">
+                <p>NEXORA Robotics &middot; Protected by Supabase Auth &amp; PostgreSQL RLS</p>
+                <a href="index.html" class="back-link">&larr; Return to Website</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Scripts -->
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        (function initLoginPage() {
+            // DOM Elements
+            const loginForm = document.querySelector("#login-form");
+            const btnGoogleLogin = document.querySelector("#btn-google-login");
+            const googleBtnText = document.querySelector("#google-btn-text");
+            const modeSignin = document.querySelector("#mode-signin");
+            const modeSignup = document.querySelector("#mode-signup");
+            const groupSignupName = document.querySelector("#group-signup-name");
+            const loginTitle = document.querySelector("#login-title");
+            const submitBtnText = document.querySelector("#submit-btn-text");
+            const loginEmail = document.querySelector("#login-email");
+            const loginPassword = document.querySelector("#login-password");
+            const loginName = document.querySelector("#login-name");
+            const btnTogglePassword = document.querySelector("#btn-toggle-password");
+            const loginErrorAlert = document.querySelector("#login-error-alert");
+            const loginSuccessAlert = document.querySelector("#login-success-alert");
+            const btnQuickDemo = document.querySelector("#btn-quick-demo");
+
+            // Status Banner Elements
+            const supabaseStatusBanner = document.querySelector("#supabase-status-banner");
+            const statusTitle = document.querySelector("#status-title");
+            const statusDesc = document.querySelector("#status-desc");
+            const btnToggleKeyHelper = document.querySelector("#btn-toggle-key-helper");
+            const keyHelperDrawer = document.querySelector("#key-helper-drawer");
+            const inputSupabaseUrl = document.querySelector("#input-supabase-url");
+            const inputSupabaseKey = document.querySelector("#input-supabase-key");
+            const btnSaveKeysQuick = document.querySelector("#btn-save-keys-quick");
+
+            let isSignup = false;
+
+            // Check Supabase Configuration Status
+            function updateStatusBanner() {
+                const isConfigured = window.nexoraAuth.isConfigured();
+                if (isConfigured) {
+                    supabaseStatusBanner.className = "status-banner banner-success";
+                    statusTitle.textContent = "Supabase Active:";
+                    statusDesc.textContent = "Connected to remote PostgreSQL instance.";
+                } else {
+                    supabaseStatusBanner.className = "status-banner banner-warning";
+                    statusTitle.textContent = "Demo / Placeholder Mode:";
+                    statusDesc.textContent = "Click 'Keys Setup' to connect your live Supabase project.";
+                }
+
+                inputSupabaseUrl.value = window.NEXORA_CONFIG.SUPABASE_URL.includes("placeholder") ? "" : window.NEXORA_CONFIG.SUPABASE_URL;
+                inputSupabaseKey.value = window.NEXORA_CONFIG.SUPABASE_ANON_KEY.includes("placeholder") ? "" : window.NEXORA_CONFIG.SUPABASE_ANON_KEY;
+            }
+
+            updateStatusBanner();
+
+            // Toggle Keys Drawer
+            btnToggleKeyHelper.addEventListener("click", () => {
+                const isHidden = keyHelperDrawer.style.display === "none";
+                keyHelperDrawer.style.display = isHidden ? "block" : "none";
+                btnToggleKeyHelper.textContent = isHidden ? "Close" : "Keys Setup";
+            });
+
+            // Save Keys Quick Button
+            btnSaveKeysQuick.addEventListener("click", () => {
+                const url = inputSupabaseUrl.value.trim();
+                const key = inputSupabaseKey.value.trim();
+
+                if (!url || !key) {
+                    alert("Please provide both the Supabase Project URL and Anon Key.");
+                    return;
+                }
+
+                window.NEXORA_CONFIG.saveConfig(url, key);
+                window.nexoraAuth.initClient();
+                updateStatusBanner();
+                keyHelperDrawer.style.display = "none";
+                btnToggleKeyHelper.textContent = "Keys Setup";
+
+                showSuccess("✓ Keys saved! Live Supabase client initialized.");
+            });
+
+            // Toggle Mode (Sign In vs Create Account)
+            function setMode(signup) {
+                isSignup = signup;
+                hideAlerts();
+
+                if (signup) {
+                    modeSignup.classList.add("active");
+                    modeSignin.classList.remove("active");
+                    groupSignupName.style.display = "flex";
+                    loginTitle.textContent = "Create Pilot Account";
+                    submitBtnText.textContent = "Create Account";
+                } else {
+                    modeSignin.classList.add("active");
+                    modeSignup.classList.remove("active");
+                    groupSignupName.style.display = "none";
+                    loginTitle.textContent = "Sign In";
+                    submitBtnText.textContent = "Sign In";
+                }
+            }
+
+            modeSignin.addEventListener("click", () => setMode(false));
+            modeSignup.addEventListener("click", () => setMode(true));
+
+            // Password Visibility Toggle
+            btnTogglePassword.addEventListener("click", () => {
+                const isPass = loginPassword.type === "password";
+                loginPassword.type = isPass ? "text" : "password";
+                btnTogglePassword.textContent = isPass ? "🔒" : "👁️";
+            });
+
+            // Demo Autofill
+            btnQuickDemo.addEventListener("click", () => {
+                loginEmail.value = "pilot.demo@nexora.io";
+                loginPassword.value = "NexoraPass2026!";
+                if (isSignup) {
+                    loginName.value = "Commander Sarah (Demo)";
+                }
+            });
+
+            // Alerts
+            function showError(msg) {
+                loginErrorAlert.textContent = msg;
+                loginErrorAlert.style.display = "block";
+                loginSuccessAlert.style.display = "none";
+            }
+
+            function showSuccess(msg) {
+                loginSuccessAlert.textContent = msg;
+                loginSuccessAlert.style.display = "block";
+                loginErrorAlert.style.display = "none";
+            }
+
+            function hideAlerts() {
+                loginErrorAlert.style.display = "none";
+                loginSuccessAlert.style.display = "none";
+            }
+
+            // Google OAuth Handler
+            btnGoogleLogin.addEventListener("click", async () => {
+                hideAlerts();
+                googleBtnText.textContent = "Redirecting to Google...";
+                btnGoogleLogin.disabled = true;
+
+                try {
+                    // Redirect back to login.html or index.html upon successful Google sign in
+                    const redirectUrl = window.location.origin + window.location.pathname.replace("login.html", "index.html");
+                    await window.nexoraAuth.signInWithGoogle(redirectUrl);
+                } catch (err) {
+                    console.error("Google OAuth error:", err);
+                    showError(err.message || "Failed to initiate Google OAuth. Ensure Google provider is enabled in Supabase.");
+                    googleBtnText.textContent = "Continue with Google";
+                    btnGoogleLogin.disabled = false;
+                }
+            });
+
+            // Email & Password Submit Handler
+            loginForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                hideAlerts();
+                const btnSubmit = document.querySelector("#btn-login-submit");
+                btnSubmit.disabled = true;
+                submitBtnText.textContent = isSignup ? "Creating account..." : "Signing in...";
+
+                try {
+                    const email = loginEmail.value.trim();
+                    const password = loginPassword.value;
+                    const name = loginName.value.trim();
+
+                    if (isSignup) {
+                        await window.nexoraAuth.signUp(email, password, name);
+                        showSuccess("✓ Account created! Redirecting to NEXORA portal...");
+                    } else {
+                        await window.nexoraAuth.signIn(email, password);
+                        showSuccess("✓ Signed in successfully! Redirecting...");
+                    }
+
+                    setTimeout(() => {
+                        window.location.href = "index.html";
+                    }, 900);
+                } catch (err) {
+                    console.error("Login submission error:", err);
+                    showError(err.message || "Authentication failed. Please verify credentials.");
+                } finally {
+                    btnSubmit.disabled = false;
+                    submitBtnText.textContent = isSignup ? "Create Account" : "Sign In";
+                }
+            });
+
+            // Detect active session or OAuth redirect callback
+            window.nexoraAuth.onAuthStateChange((event, session) => {
+                if (session && session.user) {
+                    showSuccess(`✓ Authenticated as ${session.user.email}! Redirecting...`);
+                    // Clean URL params if OAuth code was exchanged
+                    if (window.location.search.includes("code=") || window.location.hash.includes("access_token=")) {
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    }
+                    setTimeout(() => {
+                        window.location.href = "index.html";
+                    }, 800);
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
