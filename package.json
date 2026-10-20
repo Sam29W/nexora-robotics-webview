@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev:backend": "cd backend && npm run dev",
+    "dev:website": "npx serve website -p 5500",
     "build:backend": "cd backend && npm run build",
     "test:backend": "cd backend && npm test",
     "lint:backend": "cd backend && npm run lint",

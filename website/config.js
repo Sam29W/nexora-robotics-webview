@@ -7,9 +7,8 @@
 
 window.NEXORA_CONFIG = {
   // Supabase Project Credentials
-  // Can be replaced with your live Supabase project URL & Anon Key
-  SUPABASE_URL: window.localStorage.getItem('nexora_supabase_url') || 'https://placeholder-project.supabase.co',
-  SUPABASE_ANON_KEY: window.localStorage.getItem('nexora_supabase_anon_key') || 'placeholder-anon-key',
+  SUPABASE_URL: window.localStorage.getItem('nexora_supabase_url') || 'https://zaykcdkpfyybubrylxmv.supabase.co',
+  SUPABASE_ANON_KEY: window.localStorage.getItem('nexora_supabase_anon_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpheWtjZGtwZnl5YnVicnlseG12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIzMjgxNjksImV4cCI6MjEwNzkwNDE2OX0.Ysom5Wp2vP_ABdV1FI3HRRyNyntBad-Ykfd5U8fiJxI',
 
   // Backend API URL (Express + Node.js)
   // Set to deployed backend URL (e.g. Render) or local http://localhost:5000/api
