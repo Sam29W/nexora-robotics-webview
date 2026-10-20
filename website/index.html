@@ -32,18 +32,18 @@
         <!-- Authentication and Profile Header Controls -->
         <div class="header-auth">
             <!-- Logged Out State -->
-            <a href="login.html" class="nav-auth-btn" title="Open Dedicated Login Screen">
+            <a href="login.html" id="btn-open-auth" class="nav-auth-btn" title="Sign In or Create Account">
                 <span>Sign In / Portal</span>
             </a>
 
             <!-- Logged In User Pill -->
             <div id="user-header-pill" class="user-header-pill" style="display: none;">
-                <button type="button" id="btn-open-profile" class="profile-pill-btn" title="Open Profile">
+                <button type="button" id="btn-open-profile" class="profile-pill-btn" title="Open Pilot Profile">
                     <img id="nav-avatar-img" src="assets/robot.svg" alt="User Avatar" class="nav-avatar">
                     <span id="nav-username-text">Explorer</span>
                 </button>
-                <button type="button" id="btn-signout" class="signout-icon-btn" title="Sign Out">
-                    ✕
+                <button type="button" id="btn-signout" class="nav-signout-btn" title="Sign Out of NEXORA">
+                    Sign Out
                 </button>
             </div>
 
@@ -418,13 +418,16 @@
                         </div>
                     </div>
 
-                    <!-- Quick Sync and Audit Actions -->
+                    <!-- Quick Sync, Audit, and Sign Out Actions -->
                     <div class="profile-side-actions">
                         <button type="button" id="btn-sync-profile" class="sync-now-button">
                             🔄 Force Sync Now
                         </button>
                         <button type="button" id="btn-toggle-audits" class="audit-history-button">
                             📜 View Trigger Audit Logs
+                        </button>
+                        <button type="button" id="btn-modal-signout" class="modal-signout-btn">
+                            🚪 Sign Out of Account
                         </button>
                     </div>
                 </div>

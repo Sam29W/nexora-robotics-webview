@@ -275,6 +275,7 @@ if (prefersReducedMotion || !("IntersectionObserver" in window)) {
     const btnOpenAuth = document.querySelector("#btn-open-auth");
     const btnOpenProfile = document.querySelector("#btn-open-profile");
     const btnSignOut = document.querySelector("#btn-signout");
+    const btnModalSignOut = document.querySelector("#btn-modal-signout");
     const btnOpenSettings = document.querySelector("#btn-open-settings");
     const heroProfileCta = document.querySelector("#hero-profile-cta");
 
@@ -430,31 +431,38 @@ if (prefersReducedMotion || !("IntersectionObserver" in window)) {
         });
     }
 
-    // Sign out
-    if (btnSignOut) {
-        btnSignOut.addEventListener("click", async () => {
+    // Sign Out Handler
+    async function handleSignOut() {
+        try {
             await window.nexoraAuth.signOut();
             updateUIAfterSignOut();
+            showToast("✓ Signed out successfully. Session cleared.");
+        } catch (err) {
+            console.error("Sign out error:", err);
+            updateUIAfterSignOut();
             showToast("Signed out. Session cleared.");
-        });
+        }
     }
 
+    if (btnSignOut) btnSignOut.addEventListener("click", handleSignOut);
+    if (btnModalSignOut) btnModalSignOut.addEventListener("click", handleSignOut);
+
     function updateUIAfterSignOut() {
-        btnOpenAuth.style.display = "inline-block";
-        userHeaderPill.style.display = "none";
+        if (btnOpenAuth) btnOpenAuth.style.display = "inline-flex";
+        if (userHeaderPill) userHeaderPill.style.display = "none";
         cachedProfile = null;
         closeModal(profileModal);
     }
 
     function updateUIAfterSignIn(user, profile) {
-        btnOpenAuth.style.display = "none";
-        userHeaderPill.style.display = "flex";
+        if (btnOpenAuth) btnOpenAuth.style.display = "none";
+        if (userHeaderPill) userHeaderPill.style.display = "inline-flex";
 
         const name = profile?.display_name || user?.user_metadata?.display_name || user?.email?.split("@")[0] || "Pilot";
         const avatar = profile?.avatar_url || "assets/robot.svg";
 
-        navUsernameText.textContent = name;
-        navAvatarImg.src = avatar;
+        if (navUsernameText) navUsernameText.textContent = name;
+        if (navAvatarImg) navAvatarImg.src = avatar;
     }
 
     // Profile Loader
@@ -463,22 +471,22 @@ if (prefersReducedMotion || !("IntersectionObserver" in window)) {
             const { profile, source } = await window.nexoraAuth.getProfile();
             cachedProfile = profile;
 
-            // Render into Preview Card
-            previewName.textContent = profile.display_name || "Unnamed Pilot";
-            previewUserId.textContent = `UUID: ${profile.id}`;
-            previewAvatar.src = profile.avatar_url || "assets/robot.svg";
+            // Render into Preview Card (null-safe)
+            if (previewName) previewName.textContent = profile.display_name || "Unnamed Pilot";
+            if (previewUserId) previewUserId.textContent = `UUID: ${profile.id}`;
+            if (previewAvatar) previewAvatar.src = profile.avatar_url || "assets/robot.svg";
 
             const updatedTime = profile.updated_at ? new Date(profile.updated_at).toLocaleTimeString() : "Just now";
-            previewUpdatedAt.textContent = `${updatedTime} UTC`;
-            previewCreatedAt.textContent = profile.created_at ? new Date(profile.created_at).toLocaleDateString() : "Today";
+            if (previewUpdatedAt) previewUpdatedAt.textContent = `${updatedTime} UTC`;
+            if (previewCreatedAt) previewCreatedAt.textContent = profile.created_at ? new Date(profile.created_at).toLocaleDateString() : "Today";
 
-            // Render into Form inputs
-            profileDisplayName.value = profile.display_name || "";
-            profileGender.value = profile.gender || "unspecified";
-            profileAvatarUrl.value = profile.avatar_url || "";
-            profileBio.value = profile.bio || "";
-            profileHobbies.value = Array.isArray(profile.hobbies) ? profile.hobbies.join(", ") : (profile.hobbies || "");
-            profileStrengths.value = Array.isArray(profile.strengths) ? profile.strengths.join(", ") : (profile.strengths || "");
+            // Render into Form inputs (null-safe)
+            if (profileDisplayName) profileDisplayName.value = profile.display_name || "";
+            if (profileGender) profileGender.value = profile.gender || "unspecified";
+            if (profileAvatarUrl) profileAvatarUrl.value = profile.avatar_url || "";
+            if (profileBio) profileBio.value = profile.bio || "";
+            if (profileHobbies) profileHobbies.value = Array.isArray(profile.hobbies) ? profile.hobbies.join(", ") : (profile.hobbies || "");
+            if (profileStrengths) profileStrengths.value = Array.isArray(profile.strengths) ? profile.strengths.join(", ") : (profile.strengths || "");
 
             updateUIAfterSignIn(window.nexoraAuth.currentUser, profile);
 
