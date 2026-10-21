@@ -33,10 +33,16 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare versioned website assets
+        run: |
+          mkdir -p _site
+          cp -R website/. _site/
+          sed -i "s/__DEPLOY_VERSION__/${GITHUB_SHA}/g" _site/index.html
+
       - name: Upload website files
         uses: actions/upload-pages-artifact@v4
         with:
-          path: website
+          path: _site
 
       - name: Deploy website
         id: deployment
