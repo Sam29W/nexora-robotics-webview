@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   AppState,
@@ -20,8 +20,16 @@ export default function HomeScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [canGoBack, setCanGoBack] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(() => Date.now());
 
-  // Preserve Android's normal back-button navigation.
+  const refreshWebsite = useCallback(() => {
+    setHasError(false);
+    setIsLoading(true);
+
+    // A new URL requests a fresh HTML document on each refresh.
+    setRefreshKey(Date.now());
+  }, []);
+
   useEffect(() => {
     const subscription = BackHandler.addEventListener(
       'hardwareBackPress',
@@ -38,7 +46,6 @@ export default function HomeScreen() {
     return () => subscription.remove();
   }, [canGoBack]);
 
-  // Reload the website when NEXORA returns to the foreground.
   useEffect(() => {
     let previousState = AppState.currentState;
 
@@ -49,7 +56,7 @@ export default function HomeScreen() {
           previousState.match(/inactive|background/) &&
           nextState === 'active'
         ) {
-          webViewRef.current?.reload();
+          refreshWebsite();
         }
 
         previousState = nextState;
@@ -57,13 +64,7 @@ export default function HomeScreen() {
     );
 
     return () => subscription.remove();
-  }, []);
-
-  const retryLoading = () => {
-    setHasError(false);
-    setIsLoading(true);
-    webViewRef.current?.reload();
-  };
+  }, [refreshWebsite]);
 
   return (
     <SafeAreaView
@@ -72,14 +73,16 @@ export default function HomeScreen() {
     >
       <View style={styles.webViewContainer}>
         <WebView
+          key={refreshKey}
           ref={webViewRef}
-          source={{ uri: WEBSITE_URL }}
+          source={{
+            uri: `${WEBSITE_URL}?refresh=${refreshKey}`,
+          }}
           style={styles.webView}
           javaScriptEnabled
           domStorageEnabled
           cacheEnabled={false}
           cacheMode="LOAD_NO_CACHE"
-          pullToRefreshEnabled
           onLoadStart={() => {
             setIsLoading(true);
             setHasError(false);
@@ -99,6 +102,17 @@ export default function HomeScreen() {
             }
           }}
         />
+
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Refresh website"
+          onPress={refreshWebsite}
+          style={styles.refreshButton}
+        >
+          <Text style={styles.refreshButtonText}>
+            ↻ Refresh
+          </Text>
+        </Pressable>
 
         {isLoading && !hasError && (
           <View style={styles.loadingOverlay}>
@@ -124,7 +138,7 @@ export default function HomeScreen() {
 
             <Pressable
               accessibilityRole="button"
-              onPress={retryLoading}
+              onPress={refreshWebsite}
               style={styles.retryButton}
             >
               <Text style={styles.retryButtonText}>
@@ -149,6 +163,24 @@ const styles = StyleSheet.create({
   webView: {
     flex: 1,
     backgroundColor: '#07111F',
+  },
+  refreshButton: {
+    position: 'absolute',
+    top: 10,
+    right: 12,
+    zIndex: 2,
+    elevation: 3,
+    backgroundColor: '#10283B',
+    borderColor: '#39D9FF',
+    borderWidth: 1,
+    borderRadius: 18,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+  },
+  refreshButtonText: {
+    color: '#39D9FF',
+    fontSize: 13,
+    fontWeight: '700',
   },
   loadingOverlay: {
     ...StyleSheet.absoluteFillObject,
