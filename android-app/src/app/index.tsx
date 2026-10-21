@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  AppState,
   BackHandler,
   Pressable,
   StyleSheet,
@@ -20,6 +21,7 @@ export default function HomeScreen() {
   const [hasError, setHasError] = useState(false);
   const [canGoBack, setCanGoBack] = useState(false);
 
+  // Preserve Android's normal back-button navigation.
   useEffect(() => {
     const subscription = BackHandler.addEventListener(
       'hardwareBackPress',
@@ -36,6 +38,27 @@ export default function HomeScreen() {
     return () => subscription.remove();
   }, [canGoBack]);
 
+  // Reload the website when NEXORA returns to the foreground.
+  useEffect(() => {
+    let previousState = AppState.currentState;
+
+    const subscription = AppState.addEventListener(
+      'change',
+      (nextState) => {
+        if (
+          previousState.match(/inactive|background/) &&
+          nextState === 'active'
+        ) {
+          webViewRef.current?.reload();
+        }
+
+        previousState = nextState;
+      },
+    );
+
+    return () => subscription.remove();
+  }, []);
+
   const retryLoading = () => {
     setHasError(false);
     setIsLoading(true);
@@ -43,7 +66,10 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
+    <SafeAreaView
+      style={styles.container}
+      edges={['top', 'bottom']}
+    >
       <View style={styles.webViewContainer}>
         <WebView
           ref={webViewRef}
@@ -51,6 +77,9 @@ export default function HomeScreen() {
           style={styles.webView}
           javaScriptEnabled
           domStorageEnabled
+          cacheEnabled={false}
+          cacheMode="LOAD_NO_CACHE"
+          pullToRefreshEnabled
           onLoadStart={() => {
             setIsLoading(true);
             setHasError(false);
@@ -73,14 +102,22 @@ export default function HomeScreen() {
 
         {isLoading && !hasError && (
           <View style={styles.loadingOverlay}>
-            <ActivityIndicator size="large" color="#39D9FF" />
-            <Text style={styles.loadingText}>Loading NEXORA...</Text>
+            <ActivityIndicator
+              size="large"
+              color="#39D9FF"
+            />
+            <Text style={styles.loadingText}>
+              Loading NEXORA...
+            </Text>
           </View>
         )}
 
         {hasError && (
           <View style={styles.errorOverlay}>
-            <Text style={styles.errorTitle}>Unable to load NEXORA</Text>
+            <Text style={styles.errorTitle}>
+              Unable to load NEXORA
+            </Text>
+
             <Text style={styles.errorMessage}>
               Check your internet connection and try again.
             </Text>
@@ -90,7 +127,9 @@ export default function HomeScreen() {
               onPress={retryLoading}
               style={styles.retryButton}
             >
-              <Text style={styles.retryButtonText}>Try again</Text>
+              <Text style={styles.retryButtonText}>
+                Try again
+              </Text>
             </Pressable>
           </View>
         )}
