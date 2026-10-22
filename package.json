@@ -10,7 +10,8 @@
     "test:backend": "cd backend && npm test",
     "lint:backend": "cd backend && npm run lint",
     "start:app": "cd android-app && npx expo start",
-    "start:app:tunnel": "cd android-app && npx expo start --tunnel"
+    "start:app:tunnel": "cd android-app && npx expo start --tunnel",
+    "build:apk": "cd android-app && npx eas-cli build --platform android --profile preview"
   },
   "keywords": [
     "fullstack",
