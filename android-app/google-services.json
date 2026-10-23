@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "640493545727",
+    "project_id": "nexora-robotics",
+    "storage_bucket": "nexora-robotics.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640493545727:android:2193cd1cb1617dd4cf44ca",
+        "android_client_info": {
+          "package_name": "com.nexora.robotics"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnOnj1IVm-2ZxhWORY2EfYJjMXQlV1SZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

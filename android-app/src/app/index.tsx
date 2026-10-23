@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   AppState,
   BackHandler,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -11,6 +12,8 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 
 const WEBSITE_URL =
   'https://sam29w.github.io/nexora-robotics-webview/';
@@ -25,8 +28,6 @@ export default function HomeScreen() {
   const refreshWebsite = useCallback(() => {
     setHasError(false);
     setIsLoading(true);
-
-    // A new URL requests a fresh HTML document on each refresh.
     setRefreshKey(Date.now());
   }, []);
 
@@ -38,7 +39,6 @@ export default function HomeScreen() {
           webViewRef.current?.goBack();
           return true;
         }
-
         return false;
       },
     );
@@ -58,13 +58,79 @@ export default function HomeScreen() {
         ) {
           refreshWebsite();
         }
-
         previousState = nextState;
       },
     );
 
     return () => subscription.remove();
   }, [refreshWebsite]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function registerForNotifications() {
+      try {
+        if (Platform.OS !== 'android') {
+          return;
+        }
+
+        await Notifications.setNotificationChannelAsync('default', {
+  name: 'NEXORA Notifications',
+  importance: Notifications.AndroidImportance.MAX,
+  vibrationPattern: [0, 250, 250, 250],
+  lightColor: '#39D9FF',
+});
+
+        const existing = await Notifications.getPermissionsAsync();
+        let finalStatus = existing.status;
+
+        if (finalStatus !== 'granted') {
+          const requested = await Notifications.requestPermissionsAsync();
+          finalStatus = requested.status;
+        }
+
+        if (finalStatus !== 'granted') {
+          console.log('Notification permission was not granted.');
+          return;
+        }
+
+        const projectId =
+          Constants.easConfig?.projectId ??
+          Constants.expoConfig?.extra?.eas?.projectId;
+
+        if (!projectId) {
+          throw new Error('EAS project ID was not found.');
+        }
+
+        const tokenData = await Notifications.getDevicePushTokenAsync();
+
+        if (isMounted) {
+          console.log('FCM device token:', tokenData.data);
+          console.log('EAS project ID:', projectId);
+        }
+      } catch (error) {
+        console.error('Notification registration failed:', error);
+      }
+    }
+
+    void registerForNotifications();
+
+    const receivedSubscription =
+      Notifications.addNotificationReceivedListener((notification) => {
+        console.log('Notification received:', notification);
+      });
+
+    const responseSubscription =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log('Notification tapped:', response);
+      });
+
+    return () => {
+      isMounted = false;
+      receivedSubscription.remove();
+      responseSubscription.remove();
+    };
+  }, []);
 
   return (
     <SafeAreaView
@@ -75,9 +141,7 @@ export default function HomeScreen() {
         <WebView
           key={refreshKey}
           ref={webViewRef}
-          source={{
-            uri: `${WEBSITE_URL}?refresh=${refreshKey}`,
-          }}
+          source={{ uri: `${WEBSITE_URL}?refresh=${refreshKey}` }}
           style={styles.webView}
           javaScriptEnabled
           domStorageEnabled
@@ -109,20 +173,13 @@ export default function HomeScreen() {
           onPress={refreshWebsite}
           style={styles.refreshButton}
         >
-          <Text style={styles.refreshButtonText}>
-            ↻ Refresh
-          </Text>
+          <Text style={styles.refreshButtonText}>↻ Refresh</Text>
         </Pressable>
 
         {isLoading && !hasError && (
           <View style={styles.loadingOverlay}>
-            <ActivityIndicator
-              size="large"
-              color="#39D9FF"
-            />
-            <Text style={styles.loadingText}>
-              Loading NEXORA...
-            </Text>
+            <ActivityIndicator size="large" color="#39D9FF" />
+            <Text style={styles.loadingText}>Loading NEXORA...</Text>
           </View>
         )}
 
@@ -131,19 +188,15 @@ export default function HomeScreen() {
             <Text style={styles.errorTitle}>
               Unable to load NEXORA
             </Text>
-
             <Text style={styles.errorMessage}>
               Check your internet connection and try again.
             </Text>
-
             <Pressable
               accessibilityRole="button"
               onPress={refreshWebsite}
               style={styles.retryButton}
             >
-              <Text style={styles.retryButtonText}>
-                Try again
-              </Text>
+              <Text style={styles.retryButtonText}>Try again</Text>
             </Pressable>
           </View>
         )}
@@ -183,7 +236,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   loadingOverlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 12,
@@ -194,7 +247,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   errorOverlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 28,
