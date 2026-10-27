@@ -3,44 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description"
-          content="Discover NEXORA Robotics, a fictional company exploring the future of intelligent humanoid machines.">
-
-    <title>NEXORA Robotics | Intelligent Machines & Profile Portal</title>
-
+    <meta name="description" content="NEXORA - Standalone Supabase PostgreSQL Database, Authentication, and Real-time Synchronization System.">
+    <title>NEXORA | Supabase Database & Auth Integration System</title>
+    
     <link rel="stylesheet" href="style.css">
     
     <!-- Supabase JS Client (v2) from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+    <!-- Top System Header -->
     <header>
         <div class="logo-group">
             <span class="status-dot"></span>
-            <p>NEXORA ROBOTICS</p>
+            <p>NEXORA SYSTEM</p>
+            <span class="system-badge">DATABASE &amp; AUTH INTEGRATION</span>
         </div>
-
-        <nav aria-label="Main navigation">
-            <a href="#home">Home</a>
-            <a href="#robots">Our Robots</a>
-            <a href="#compare">Compare Robots</a>
-            <a href="#about">About Us</a>
-            <a href="#contact">Contact</a>
-        </nav>
 
         <!-- Authentication and Profile Header Controls -->
         <div class="header-auth">
             <!-- Logged Out State -->
-            <a href="login.html" id="btn-open-auth" class="nav-auth-btn" title="Sign In or Create Account">
-                <span>Sign In / Portal</span>
+            <a href="login.html" id="btn-open-auth" class="nav-auth-btn" title="Open Dedicated Login Screen">
+                Sign In / Register
             </a>
 
             <!-- Logged In User Pill -->
             <div id="user-header-pill" class="user-header-pill" style="display: none;">
-                <button type="button" id="btn-open-profile" class="profile-pill-btn" title="Open Pilot Profile">
+                <button type="button" id="btn-open-profile" class="profile-pill-btn" title="Open Database Record">
                     <img id="nav-avatar-img" src="assets/robot.svg" alt="User Avatar" class="nav-avatar">
-                    <span id="nav-username-text">Explorer</span>
+                    <span id="nav-username-text">Pilot</span>
                 </button>
                 <button type="button" id="btn-signout" class="nav-signout-btn" title="Sign Out of NEXORA">
                     Sign Out
@@ -49,7 +40,7 @@
 
             <!-- Database & Settings Config Button -->
             <button type="button" id="btn-open-settings" class="settings-nav-btn" title="Configure Remote Database & API">
-                ⚙️
+                ⚙️ Config
             </button>
         </div>
     </header>
@@ -60,275 +51,248 @@
         <span id="sync-toast-message">Database synchronized</span>
     </div>
 
-    <main>
-        <!-- HERO SECTION -->
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <p class="eyebrow">THE FUTURE IS HERE</p>
-
-                <h1>
-                    Intelligence.<br>
-                    Designed for humanity.
-                </h1>
-
+    <main class="portal-main">
+        <!-- SYSTEM STATUS HERO -->
+        <section class="portal-hero">
+            <div class="hero-header-content">
+                <p class="eyebrow">DECOUPLED APPLICATION BACKEND</p>
+                <h1>Supabase PostgreSQL &amp; Auth Core</h1>
                 <p class="hero-description">
-                    Meet a new generation of humanoid robots
-                    engineered to work alongside people.
+                    A standalone, production-grade identity and database layer with Google OAuth, 
+                    strict Row-Level Security, PostgreSQL triggers, and cross-client synchronization. 
+                    Ready to power any frontend (Web, Mobile WebView, or Native React Native).
                 </p>
+
+                <!-- Live System Indicator Badges -->
+                <div class="system-status-badges">
+                    <div class="status-pill active">
+                        <span class="status-dot"></span>
+                        <span>PostgreSQL DB: <strong>Connected</strong></span>
+                    </div>
+                    <div class="status-pill active">
+                        <span class="status-dot"></span>
+                        <span>Auth Provider: <strong>Google OAuth &amp; Email</strong></span>
+                    </div>
+                    <div class="status-pill active">
+                        <span class="status-dot"></span>
+                        <span>Database Triggers: <strong>Active (BEFORE UPDATE)</strong></span>
+                    </div>
+                </div>
 
                 <div class="hero-actions">
-                    <a class="hero-button" href="#robots">
-                        Explore Our Robots
-                        <span aria-hidden="true">→</span>
-                    </a>
-                    <button type="button" class="hero-profile-button" id="hero-profile-cta">
-                        Access Pilot Portal
+                    <button type="button" class="portal-cta-button" id="hero-profile-cta">
+                        Open Database Record &amp; Profile
                     </button>
-                </div>
-
-                <p class="hero-note">
-                    <span class="status-dot"></span>
-                    ENGINEERED FOR TOMORROW
-                </p>
-                <p class="hero-note" id="sync-status-indicator">
-                    PERSISTENT SUPABASE POSTGRESQL · LIVE SYNC ACTIVE
-                </p>
-            </div>
-
-            <div class="hero-visual">
-                <div class="hero-orbit"></div>
-                <div class="hero-glow"></div>
-
-                <img
-                    src="assets/robot.svg"
-                    alt="NEXORA futuristic humanoid robot"
-                    class="hero-robot"
-                >
-
-                <div class="robot-label">
-                    <span class="status-dot"></span>
-                    NXR-01 / HUMANOID SERIES
-                </div>
-
-                <div class="hero-coordinate">
-                    37° 14' 06.2" N
+                    <a href="login.html" class="portal-secondary-button">
+                        Dedicated Login Screen &rarr;
+                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- PRODUCT CATALOGUE -->
-        <section id="robots" class="products-section">
+        <!-- MAIN DATABASE WORKBENCH SECTION -->
+        <section class="workbench-section">
             <div class="section-heading">
-                <p class="eyebrow">OUR HUMANOID SERIES</p>
-
-                <h2>Meet the NEXORA generation.</h2>
-
+                <p class="eyebrow">PERSISTENT STORAGE WORKBENCH</p>
+                <h2>Live PostgreSQL Record &amp; Synchronization</h2>
                 <p>
-                    Three robot concepts. Three different ways to bring
-                    intelligent machines closer to everyday life.
+                    Data is persisted in remote PostgreSQL table <code>public.profiles</code>.
+                    Modifications made here reflect instantly across desktop browsers and the mobile app.
                 </p>
             </div>
 
-            <dialog id="product-dialog" class="product-dialog">
-                <button
-                    type="button"
-                    class="dialog-close"
-                    data-close-dialog
-                    aria-label="Close product details"
-                >×</button>
-
-                <p class="eyebrow" id="dialog-category"></p>
-                <h2 id="dialog-title"></h2>
-                <p id="dialog-description"></p>
-
-                <h3>Concept features</h3>
-                <ul id="dialog-features"></ul>
-
-                <p class="concept-disclaimer">
-                    Fictional product concept. Features are illustrative,
-                    not claims about a commercially available robot.
-                </p>
-
-                <button
-                    type="button"
-                    class="product-button"
-                    data-close-dialog
-                >Close details</button>
-            </dialog>
-
-            <div class="product-grid">
-                <article class="product-card" id="home-robot">
-                    <div class="product-number">01 / HOME</div>
-
-                    <div class="product-visual product-visual-home">
-                        <img src="assets/robot.svg"
-                             alt="Illustration representing NEXORA Home">
+            <div class="workbench-grid">
+                <!-- Card 1: Live Record Preview -->
+                <div class="workbench-card record-preview-card">
+                    <div class="card-header">
+                        <h3>📋 Current Database Record</h3>
+                        <span class="badge-live">LIVE FROM POSTGRESQL</span>
                     </div>
 
-                    <div class="product-info">
-                        <p class="product-category">DOMESTIC ASSISTANCE</p>
-                        <h3>NEXORA Home</h3>
+                    <div class="record-meta">
+                        <div class="avatar-box">
+                            <img id="preview-avatar" src="assets/robot.svg" alt="Avatar" class="avatar-large">
+                        </div>
+                        <div class="record-titles">
+                            <h4 id="preview-name">Vargav Lead Engineer</h4>
+                            <p class="preview-role" id="preview-role-text">Authenticated System Operator</p>
+                            <p class="user-id-badge" id="preview-user-id">UUID: Checking session...</p>
+                        </div>
+                    </div>
 
-                        <p>
-                            A home-assistant concept designed for daily tasks
-                            and smart-environment interaction.
+                    <!-- Trigger Verification Box -->
+                    <div class="trigger-inspection-box">
+                        <div class="trigger-title-row">
+                            <span class="status-dot"></span>
+                            <strong>PostgreSQL Trigger: <code>trigger_set_profiles_updated_at</code></strong>
+                        </div>
+                        <p class="trigger-explanation">
+                            Whenever an <code>UPDATE</code> hits this record, the database engine executes 
+                            <code>set_updated_at_timestamp()</code> in PL/pgSQL, resetting <code>updated_at</code> to the current UTC timestamp atomically.
                         </p>
+                        
+                        <div class="timestamp-row">
+                            <span>Last Database Sync (Trigger Timestamp):</span>
+                            <strong id="preview-updated-at">Just now</strong>
+                        </div>
+                        <div class="timestamp-row">
+                            <span>Account Creation:</span>
+                            <span id="preview-created-at">Today</span>
+                        </div>
+                    </div>
 
-                        <ul class="product-specs">
-                            <li><span>Concept role</span><strong>Home assistant</strong></li>
-                            <li><span>Interaction</span><strong>Voice and touch</strong></li>
-                            <li><span>Environment</span><strong>Residential</strong></li>
-                        </ul>
-
-                        <button class="product-button"
-                                type="button"
-                                data-product="home">
-                            Explore concept <span aria-hidden="true">→</span>
+                    <div class="record-actions">
+                        <button type="button" id="btn-sync-profile" class="btn-sync">
+                            🔄 Force Sync Now
+                        </button>
+                        <button type="button" id="btn-toggle-audits" class="btn-audit">
+                            📜 View Trigger Audit Logs
                         </button>
                     </div>
-                </article>
+                </div>
 
-                <article class="product-card" id="industrial-robot">
-                    <div class="product-number">02 / INDUSTRIAL</div>
-
-                    <div class="product-visual product-visual-industrial">
-                        <img src="assets/robot.svg"
-                             alt="Illustration representing NEXORA Industrial">
+                <!-- Card 2: Interactive Database Editor -->
+                <div class="workbench-card record-editor-card">
+                    <div class="card-header">
+                        <h3>✏️ Edit Database Fields</h3>
+                        <span class="badge-info">TRANSACTIONAL UPDATE</span>
                     </div>
 
-                    <div class="product-info">
-                        <p class="product-category">INDUSTRIAL SUPPORT</p>
-                        <h3>NEXORA Industrial</h3>
+                    <form id="profile-edit-form" class="editor-form">
+                        <div class="form-row">
+                            <div class="form-group flex-1">
+                                <label for="profile-display-name">Display Name (<code>display_name</code>)</label>
+                                <input type="text" id="profile-display-name" required placeholder="Pilot / Operator Name">
+                            </div>
 
-                        <p>
-                            An industrial humanoid concept for logistics support
-                            and repetitive workplace tasks.
-                        </p>
+                            <div class="form-group flex-1">
+                                <label for="profile-gender">Gender (<code>gender</code>)</label>
+                                <select id="profile-gender">
+                                    <option value="unspecified">Unspecified</option>
+                                    <option value="female">Female</option>
+                                    <option value="male">Male</option>
+                                    <option value="non-binary">Non-Binary</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
 
-                        <ul class="product-specs">
-                            <li><span>Concept role</span><strong>Industrial support</strong></li>
-                            <li><span>Interaction</span><strong>Operator interface</strong></li>
-                            <li><span>Environment</span><strong>Factories and logistics</strong></li>
-                        </ul>
+                        <div class="form-group">
+                            <label for="profile-avatar-url">Avatar Image URL (<code>avatar_url</code>)</label>
+                            <input type="url" id="profile-avatar-url" placeholder="https://example.com/photo.jpg">
+                            
+                            <div class="avatar-presets">
+                                <span class="preset-label">Presets:</span>
+                                <button type="button" class="preset-btn" data-url="assets/robot.svg">Robot Core</button>
+                                <button type="button" class="preset-btn" data-url="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200">Engineer 1</button>
+                                <button type="button" class="preset-btn" data-url="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200">Engineer 2</button>
+                            </div>
+                        </div>
 
-                        <button class="product-button"
-                                type="button"
-                                data-product="industrial">
-                            Explore concept <span aria-hidden="true">→</span>
-                        </button>
-                    </div>
-                </article>
+                        <div class="form-group">
+                            <label for="profile-bio">Mission Bio (<code>bio</code>)</label>
+                            <textarea id="profile-bio" rows="3" placeholder="Database operator bio..."></textarea>
+                        </div>
 
-                <article class="product-card" id="care-robot">
-                    <div class="product-number">03 / CARE</div>
+                        <div class="form-row">
+                            <div class="form-group flex-1">
+                                <label for="profile-hobbies">Hobbies (<code>hobbies TEXT[]</code>)</label>
+                                <input type="text" id="profile-hobbies" placeholder="Coding, PostgreSQL, Robotics">
+                            </div>
 
-                    <div class="product-visual product-visual-care">
-                        <img src="assets/robot.svg"
-                             alt="Illustration representing NEXORA Care">
-                    </div>
+                            <div class="form-group flex-1">
+                                <label for="profile-strengths">Strengths (<code>strengths TEXT[]</code>)</label>
+                                <input type="text" id="profile-strengths" placeholder="Database Design, Problem Solving">
+                            </div>
+                        </div>
 
-                    <div class="product-info">
-                        <p class="product-category">COMPANION ROBOTICS</p>
-                        <h3>NEXORA Care</h3>
+                        <div id="profile-feedback" class="feedback-alert" style="display: none;"></div>
 
-                        <p>
-                            A companion-robot concept for hospitality,
-                            guided assistance and welcoming environments.
-                        </p>
-
-                        <ul class="product-specs">
-                            <li><span>Concept role</span><strong>Companion</strong></li>
-                            <li><span>Interaction</span><strong>Conversational interface</strong></li>
-                            <li><span>Environment</span><strong>Hospitality and care</strong></li>
-                        </ul>
-
-                        <button class="product-button"
-                                type="button"
-                                data-product="care">
-                            Explore concept <span aria-hidden="true">→</span>
-                        </button>
-                    </div>
-                </article>
+                        <div class="form-actions">
+                            <button type="submit" id="btn-save-profile" class="btn-save">
+                                <span>Save &amp; Execute PostgreSQL Trigger</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
-            <p class="concept-disclaimer">
-                All products and specifications shown are fictional design
-                concepts. No commercial availability or operational
-                capabilities are implied.
-            </p>
+            <!-- PostgreSQL Trigger Audit Logs Collapsible Section -->
+            <div id="audit-logs-section" class="audit-logs-section" style="display: none;">
+                <div class="audit-header">
+                    <h4>📋 PostgreSQL Trigger Audit History</h4>
+                    <span class="audit-sub">Logged automatically by <code>trigger_profile_audit</code> into table <code>profile_audit_logs</code></span>
+                </div>
+                <div id="audit-logs-list" class="audit-logs-list">
+                    <p class="empty-audits">No trigger executions recorded yet.</p>
+                </div>
+            </div>
         </section>
 
-        <!-- ROBOT COMPARISON -->
-        <section id="compare" class="comparison-section">
+        <!-- FRONTEND DECOUPLING & INTEGRATION GUIDE -->
+        <section class="integration-guide-section">
             <div class="section-heading">
-                <p class="eyebrow">FIND YOUR MATCH</p>
-                <h2>Compare our robots.</h2>
+                <p class="eyebrow">DECOUPLED ARCHITECTURE</p>
+                <h2>How Any Frontend Connects to This System</h2>
                 <p>
-                    Select the robots you want to compare and explore
-                    their intended roles, interactions and environments.
+                    Because this backend and database layer is completely independent, 
+                    any client application (React Native, React, Vue, Flutter, iOS, Android) connects using standard REST or the Supabase SDK:
                 </p>
             </div>
 
-            <div class="comparison-controls">
-                <label class="comparison-option">
-                    <input type="checkbox" value="home" checked>
-                    <span>NEXORA Home</span>
-                </label>
+            <div class="code-samples-grid">
+                <!-- Method 1: Shared REST API -->
+                <div class="code-card">
+                    <div class="code-card-header">
+                        <span class="tech-tag">REST API (TypeScript / Express)</span>
+                        <strong>Endpoints</strong>
+                    </div>
+                    <pre><code>// 1. Health check
+GET /api/health
 
-                <label class="comparison-option">
-                    <input type="checkbox" value="industrial" checked>
-                    <span>NEXORA Industrial</span>
-                </label>
+// 2. Fetch authenticated record
+GET /api/v1/profile/me
+Headers: { "Authorization": "Bearer &lt;JWT&gt;" }
 
-                <label class="comparison-option">
-                    <input type="checkbox" value="care">
-                    <span>NEXORA Care</span>
-                </label>
+// 3. Update record &amp; fire trigger
+PATCH /api/v1/profile/me
+Headers: { "Authorization": "Bearer &lt;JWT&gt;" }
+Body: { "display_name": "...", "bio": "..." }</code></pre>
+                </div>
+
+                <!-- Method 2: Supabase Client SDK -->
+                <div class="code-card">
+                    <div class="code-card-header">
+                        <span class="tech-tag">Supabase Client SDK</span>
+                        <strong>Direct Client Integration</strong>
+                    </div>
+                    <pre><code>import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Google OAuth
+await supabase.auth.signInWithOAuth({ provider: 'google' });
+
+// Query database
+const { data } = await supabase
+  .from('profiles')
+  .select('*')
+  .eq('id', user.id);</code></pre>
+                </div>
             </div>
-
-            <div id="comparison-results" aria-live="polite">
-                <p>Select at least two robots to compare them.</p>
-            </div>
-
-            <button id="reset-comparison" type="button">
-                Reset selection
-            </button>
-        </section>
-
-        <!-- ABOUT -->
-        <section id="about">
-            <p class="eyebrow">OUR VISION</p>
-            <h2>Engineering a better tomorrow</h2>
-
-            <p>
-                NEXORA Robotics is exploring human-centered robotics and intelligent machines.
-                All user pilot data is synchronized between web clients, mobile apps, and remote PostgreSQL in real time.
-            </p>
-        </section>
-
-        <!-- CONTACT -->
-        <section id="contact">
-            <p class="eyebrow">START A CONVERSATION</p>
-            <h2>Build the future with us</h2>
-
-            <p>
-                Interested in our robot concepts? Get in touch with our team.
-            </p>
-
-            <a href="mailto:hello@nexora.example">Contact NEXORA</a>
         </section>
     </main>
 
     <!-- ================================================================= -->
-    <!-- AUTHENTICATION MODAL -->
+    <!-- AUTHENTICATION MODAL (Fallback in-page auth) -->
     <!-- ================================================================= -->
     <dialog id="auth-modal" class="nexora-modal">
         <div class="modal-card">
             <button type="button" class="dialog-close" data-close-auth aria-label="Close authentication modal">×</button>
             
-            <p class="eyebrow">ACCESS CONTROL</p>
-            <h2 id="auth-modal-title">NEXORA Pilot Authentication</h2>
-            <p class="modal-subtitle">Secure authentication powered by Supabase Auth and JWT token validation.</p>
+            <p class="eyebrow">AUTHENTICATION</p>
+            <h2 id="auth-modal-title">System Sign In</h2>
+            <p class="modal-subtitle">Secure authentication powered by Supabase Auth and PostgreSQL.</p>
 
             <div class="auth-tabs">
                 <button type="button" id="tab-login" class="auth-tab active">Sign In</button>
@@ -338,12 +302,12 @@
             <form id="auth-form" class="auth-form">
                 <div class="form-group" id="group-display-name" style="display: none;">
                     <label for="auth-display-name">Display Name</label>
-                    <input type="text" id="auth-display-name" placeholder="e.g. Commander Sarah" autocomplete="name">
+                    <input type="text" id="auth-display-name" placeholder="e.g. Lead Engineer" autocomplete="name">
                 </div>
 
                 <div class="form-group">
                     <label for="auth-email">Email Address</label>
-                    <input type="email" id="auth-email" placeholder="pilot@nexora.com" required autocomplete="email">
+                    <input type="email" id="auth-email" placeholder="operator@nexora.io" required autocomplete="email">
                 </div>
 
                 <div class="form-group">
@@ -359,147 +323,19 @@
                 </button>
 
                 <div class="auth-divider">
-                    <span>OR USE DEMO ACCOUNT</span>
+                    <span>OR CONTINUE WITH GOOGLE</span>
                 </div>
 
                 <div class="demo-account-actions">
-                    <button type="button" id="btn-demo-fill" class="demo-fill-btn">
-                        ⚡ Quick Fill Demo Credentials
-                    </button>
                     <button type="button" id="btn-google-auth" class="google-oauth-btn">
                         <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5.1 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.8s.2-2.1.4-2.8L1.9 6.3C.7 8.7 0 10.8 0 12s.7 3.3 1.9 5.7l3.7-2.9z"/><path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2-6.4-4.8L1.9 16.4C3.7 20.1 7.5 23 12 23z"/></svg>
                         Sign in with Google OAuth
                     </button>
+                    <a href="login.html" class="demo-fill-btn" style="text-align: center; text-decoration: none;">
+                        Open Dedicated Login Screen &rarr;
+                    </a>
                 </div>
             </form>
-        </div>
-    </dialog>
-
-    <!-- ================================================================= -->
-    <!-- PROFILE MANAGEMENT & SYNCHRONIZATION MODAL -->
-    <!-- ================================================================= -->
-    <dialog id="profile-modal" class="nexora-modal profile-modal-large">
-        <div class="modal-card">
-            <button type="button" class="dialog-close" data-close-profile aria-label="Close profile modal">×</button>
-            
-            <div class="profile-header-banner">
-                <p class="eyebrow">PILOT PROFILE & SYNCHRONIZATION</p>
-                <h2>User Profile Dashboard</h2>
-                <p class="modal-subtitle">Shared across Website, Android WebView, and PostgreSQL Database</p>
-            </div>
-
-            <div class="profile-layout">
-                <!-- Left: Profile Preview & Verification Card -->
-                <div class="profile-card-preview">
-                    <div class="avatar-container">
-                        <img id="preview-avatar" src="assets/robot.svg" alt="Profile Avatar" class="avatar-large">
-                        <span class="avatar-badge">LIVE SYNC</span>
-                    </div>
-
-                    <h3 id="preview-name">Commander Sarah</h3>
-                    <p class="preview-role" id="preview-role-text">Nexora Senior Pilot</p>
-                    <p class="user-id-badge" id="preview-user-id">ID: 00000000-0000-0000</p>
-
-                    <!-- PostgreSQL Trigger Status Display -->
-                    <div class="db-trigger-status-box">
-                        <div class="trigger-header">
-                            <span class="status-dot"></span>
-                            <strong>PostgreSQL Trigger Active</strong>
-                        </div>
-                        <p class="trigger-desc">Trigger <code>trigger_set_profiles_updated_at</code> updates timestamp automatically on PostgreSQL whenever records change.</p>
-                        
-                        <div class="timestamp-item">
-                            <span>Last Database Sync:</span>
-                            <strong id="preview-updated-at">Just now</strong>
-                        </div>
-                        <div class="timestamp-item">
-                            <span>Account Created:</span>
-                            <span id="preview-created-at">Today</span>
-                        </div>
-                    </div>
-
-                    <!-- Quick Sync, Audit, and Sign Out Actions -->
-                    <div class="profile-side-actions">
-                        <button type="button" id="btn-sync-profile" class="sync-now-button">
-                            🔄 Force Sync Now
-                        </button>
-                        <button type="button" id="btn-toggle-audits" class="audit-history-button">
-                            📜 View Trigger Audit Logs
-                        </button>
-                        <button type="button" id="btn-modal-signout" class="modal-signout-btn">
-                            🚪 Sign Out of Account
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Right: Profile Editing Form -->
-                <div class="profile-form-container">
-                    <form id="profile-edit-form">
-                        <div class="form-row">
-                            <div class="form-group flex-1">
-                                <label for="profile-display-name">Display Name</label>
-                                <input type="text" id="profile-display-name" required placeholder="Full Name or Pilot Call-Sign">
-                            </div>
-
-                            <div class="form-group flex-1">
-                                <label for="profile-gender">Gender Identity</label>
-                                <select id="profile-gender">
-                                    <option value="unspecified">Unspecified</option>
-                                    <option value="female">Female</option>
-                                    <option value="male">Male</option>
-                                    <option value="non-binary">Non-Binary</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="profile-avatar-url">Avatar Image URL</label>
-                            <input type="url" id="profile-avatar-url" placeholder="https://example.com/photo.jpg or choose below">
-                            
-                            <div class="avatar-presets">
-                                <span class="preset-label">Presets:</span>
-                                <button type="button" class="preset-btn" data-url="assets/robot.svg">Robot</button>
-                                <button type="button" class="preset-btn" data-url="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200">Pilot 1</button>
-                                <button type="button" class="preset-btn" data-url="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200">Pilot 2</button>
-                                <button type="button" class="preset-btn" data-url="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200">Engineer</button>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="profile-bio">Bio / Mission Statement</label>
-                            <textarea id="profile-bio" rows="3" placeholder="Tell us about your work, mission, and robotics interests..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="profile-hobbies">Hobbies & Interests (comma-separated)</label>
-                            <input type="text" id="profile-hobbies" placeholder="Robotics, Autonomous Vehicles, AI, Drones">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="profile-strengths">Key Strengths (comma-separated)</label>
-                            <input type="text" id="profile-strengths" placeholder="Systems Architecture, Kinematics, Neural Nets">
-                        </div>
-
-                        <div id="profile-feedback" class="feedback-alert" style="display: none;"></div>
-
-                        <div class="form-actions">
-                            <button type="submit" id="btn-save-profile" class="save-profile-btn">
-                                <span>Save & Sync to Database</span>
-                            </button>
-                        </div>
-                    </form>
-
-                    <!-- PostgreSQL Trigger Audit Logs Section (Collapsible) -->
-                    <div id="audit-logs-section" class="audit-logs-section" style="display: none;">
-                        <h4>📋 PostgreSQL Trigger Audit History</h4>
-                        <p class="audit-info">Recorded automatically by <code>trigger_profile_audit</code> in Supabase PostgreSQL:</p>
-                        <div id="audit-logs-list" class="audit-logs-list">
-                            <p class="empty-audits">No updates recorded yet.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </dialog>
 
@@ -510,33 +346,30 @@
         <div class="modal-card">
             <button type="button" class="dialog-close" data-close-settings aria-label="Close settings modal">×</button>
             
-            <p class="eyebrow">ENVIRONMENT CONFIGURATION</p>
-            <h2>Database & API Connection</h2>
-            <p class="modal-subtitle">Connect your live Supabase PostgreSQL instance and Express backend API</p>
+            <p class="eyebrow">DATABASE CONNECTION</p>
+            <h2>Database &amp; API Configuration</h2>
+            <p class="modal-subtitle">Configure Supabase PostgreSQL keys and Express backend endpoints</p>
 
             <form id="settings-form">
                 <div class="form-group">
                     <label for="settings-supabase-url">Supabase Project URL</label>
-                    <input type="url" id="settings-supabase-url" placeholder="https://your-project.supabase.co" required>
-                    <small>Found in Supabase Dashboard → Settings → API → Project URL</small>
+                    <input type="url" id="settings-supabase-url" placeholder="https://zaykcdkpfyybubrylxmv.supabase.co" required>
                 </div>
 
                 <div class="form-group">
                     <label for="settings-supabase-key">Supabase Anon Key</label>
                     <input type="text" id="settings-supabase-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." required>
-                    <small>Found in Supabase Dashboard → Settings → API → Project API keys (anon / public)</small>
                 </div>
 
                 <div class="form-group">
                     <label for="settings-api-url">Backend REST API URL</label>
                     <input type="url" id="settings-api-url" placeholder="http://localhost:5000/api" required>
-                    <small>Local development server or deployed HTTPS URL (Render, Railway, Fly.io)</small>
                 </div>
 
                 <div id="settings-feedback" class="feedback-alert" style="display: none;"></div>
 
                 <div class="form-actions">
-                    <button type="submit" class="submit-button">Save & Reconnect</button>
+                    <button type="submit" class="submit-button">Save &amp; Reconnect</button>
                     <button type="button" id="btn-reset-settings" class="secondary-button">Reset Defaults</button>
                 </div>
             </form>
@@ -544,7 +377,7 @@
     </dialog>
 
     <footer>
-        <p>&copy; 2026 NEXORA Robotics. Production Full-Stack Architecture Demonstration.</p>
+        <p>&copy; 2026 NEXORA System. Independent Supabase PostgreSQL &amp; Auth Core.</p>
     </footer>
 
     <!-- Application Scripts -->
